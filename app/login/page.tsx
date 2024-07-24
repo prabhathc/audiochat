@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,7 +9,7 @@ export default function Login() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const endpoint = useMagicLink ? '/auth/magic-link' : '/auth/login';
@@ -40,7 +40,7 @@ export default function Login() {
     }
   };
 
-  const handleOAuthLogin = async (provider) => {
+  const handleOAuthLogin = async (provider: string) => {
     const response = await fetch(`/auth/${provider}`);
     if (response.ok) {
       window.location.href = '/';
