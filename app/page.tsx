@@ -13,9 +13,6 @@ export default function Home() {
           'Expires': '0',
         },
       });
-
-      console.log('Fetch response:', response);
-
       if (response.ok) {
         window.location.reload();
       } else {
@@ -24,7 +21,6 @@ export default function Home() {
     } catch (error) {
       console.error('Error logging out:', error);
     }
-    console.log('LOGGING OUT!');
   };
 
   return (

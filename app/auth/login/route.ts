@@ -6,11 +6,8 @@ export async function POST(req: NextRequest) {
   console.log("yo watsup im in the auth/Login route");
 
   const url = new URL(req.url);
+  const { email, password } = await req.json();
   const cookieStore = cookies();
-
-  const formData = await req.formData();
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
   console.log(email, password);
 
   const supabase = createRouteHandlerClient({
@@ -24,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   if (error) {
     console.error("Error logging in:", error.message);
-    return NextResponse.redirect(`${url.origin}/login?error=invalid_credentials`, {
+    return NextResponse.rewrite(`${url.origin}/login?error=invalid_credentials`, {
       status: 301,
     });
   }

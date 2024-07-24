@@ -6,11 +6,6 @@ export async function middleware(req: NextRequest) {
   console.log('Request URL:', req.url);
   console.log('Request nextUrl:', req.nextUrl.href);
 
-  if (req.method === "GET" && req.nextUrl.pathname === "/auth/logout") {
-    console.log("Middleware: /auth/logout route accessed");
-    return NextResponse.next();
-  }
-
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
 
@@ -21,6 +16,7 @@ export async function middleware(req: NextRequest) {
   console.log('Middleware Session check: ', session != null);
 
   if (!session) {
+    console.log('REROUTIN!!!!!!!!');
     return NextResponse.rewrite(new URL('/login', req.url));
   }
 
@@ -29,6 +25,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|auth/login|auth/logout).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|auth/login|auth/logout|auth/magic-link|auth/callback).*)',
   ],
 }
