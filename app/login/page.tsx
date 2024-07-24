@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react';
+import { useState, FormEvent } from 'react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,7 +20,6 @@ export default function Login() {
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Pragma': 'no-cache',
         'Expires': '0',
       },
       body,
@@ -40,13 +39,8 @@ export default function Login() {
     }
   };
 
-  const handleOAuthLogin = async (provider: string) => {
-    const response = await fetch(`/auth/${provider}`);
-    if (response.ok) {
-      window.location.href = '/';
-    } else {
-      console.error(`Failed to log in with ${provider}`);
-    }
+  const handleOAuthLogin = (provider: string) => {
+    window.location.href = `/auth/${provider}`;
   };
 
   return (
@@ -94,28 +88,10 @@ export default function Login() {
         </div>
         <div className="mt-6">
           <button
-            onClick={() => handleOAuthLogin('google')}
-            className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mt-2"
-          >
-            Login with Google
-          </button>
-          <button
-            onClick={() => handleOAuthLogin('apple')}
-            className="w-full bg-black text-white py-2 px-4 rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mt-2"
-          >
-            Login with Apple
-          </button>
-          <button
             onClick={() => handleOAuthLogin('discord')}
             className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 mt-2"
           >
             Login with Discord
-          </button>
-          <button
-            onClick={() => handleOAuthLogin('twitter')}
-            className="w-full bg-blue-400 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2"
-          >
-            Login with Twitter
           </button>
         </div>
       </div>
