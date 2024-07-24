@@ -94,6 +94,14 @@ export default function Login() {
             Login with Discord
           </button>
         </div>
+        <div className='mt-1'>
+          <button
+            onClick={() => handleOAuthLogin('google')}
+            className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mt-2"
+          >
+            Login with Google
+          </button>
+        </div>
       </div>
     </div>
   );
