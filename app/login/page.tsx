@@ -40,34 +40,85 @@ export default function Login() {
     }
   };
 
+  const handleOAuthLogin = async (provider) => {
+    const response = await fetch(`/auth/${provider}`);
+    if (response.ok) {
+      window.location.href = '/';
+    } else {
+      console.error(`Failed to log in with ${provider}`);
+    }
+  };
+
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
-          name="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {!useMagicLink && (
-          <>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </>
-        )}
-        <button type="submit">{useMagicLink ? 'Send Magic Link' : 'Login'}</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      <button onClick={() => setUseMagicLink(!useMagicLink)}>
-        {useMagicLink ? 'Login with Password' : 'Login with Magic Link'}
-      </button>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <form onSubmit={handleSubmit} className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <input
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
+          {!useMagicLink && (
+            <>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mt-4">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </>
+          )}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-4"
+          >
+            {useMagicLink ? 'Send Magic Link' : 'Login'}
+          </button>
+        </form>
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {message && <p className="text-green-600 text-sm">{message}</p>}
+        <div className="text-center mt-4">
+          <button onClick={() => setUseMagicLink(!useMagicLink)} className="text-blue-500 hover:underline">
+            {useMagicLink ? 'Login with Password' : 'Login with Magic Link'}
+          </button>
+        </div>
+        <div className="mt-6">
+          <button
+            onClick={() => handleOAuthLogin('google')}
+            className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mt-2"
+          >
+            Login with Google
+          </button>
+          <button
+            onClick={() => handleOAuthLogin('apple')}
+            className="w-full bg-black text-white py-2 px-4 rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 mt-2"
+          >
+            Login with Apple
+          </button>
+          <button
+            onClick={() => handleOAuthLogin('discord')}
+            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 mt-2"
+          >
+            Login with Discord
+          </button>
+          <button
+            onClick={() => handleOAuthLogin('twitter')}
+            className="w-full bg-blue-400 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2"
+          >
+            Login with Twitter
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
