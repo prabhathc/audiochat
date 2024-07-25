@@ -1,106 +1,51 @@
-'use client'
+'use client';
 
-import { useState, FormEvent } from 'react';
+import React from 'react';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [useMagicLink, setUseMagicLink] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-
-    const endpoint = useMagicLink ? '/auth/magic-link' : '/auth/login';
-    const body = JSON.stringify({ email, ...(useMagicLink ? {} : { password }) });
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Expires': '0',
-      },
-      body,
-    });
-
-    if (response.ok) {
-      if (useMagicLink) {
-        setMessage('Check your email for the magic link.');
-      } else {
-        // Redirect to a protected page or homepage after successful login
-        window.location.href = '/';
-      }
-    } else {
-      // Handle login failure
-      const errorData = await response.json();
-      setError(errorData.error || 'Failed to log in');
-    }
-  };
-
   const handleOAuthLogin = (provider: string) => {
     window.location.href = `/auth/${provider}`;
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <form onSubmit={handleSubmit} className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          />
-          {!useMagicLink && (
-            <>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mt-4">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </>
-          )}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-4"
-          >
-            {useMagicLink ? 'Send Magic Link' : 'Login'}
-          </button>
-        </form>
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {message && <p className="text-green-600 text-sm">{message}</p>}
-        <div className="text-center mt-4">
-          <button onClick={() => setUseMagicLink(!useMagicLink)} className="text-blue-500 hover:underline">
-            {useMagicLink ? 'Login with Password' : 'Login with Magic Link'}
-          </button>
+    <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gray-900 text-white">
+      <div className="flex flex-col items-center justify-center lg:w-1/2 p-10 bg-gray-800 h-screen">
+        <div className="flex items-center text-lg font-medium mb-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 h-6 w-6">
+            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
+          </svg>
+          Acme Inc
         </div>
-        <div className="mt-6">
-          <button
-            onClick={() => handleOAuthLogin('discord')}
-            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 mt-2"
-          >
-            Login with Discord
-          </button>
-        </div>
-        <div className='mt-1'>
-          <button
-            onClick={() => handleOAuthLogin('google')}
-            className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 mt-2"
-          >
-            Login with Google
-          </button>
+        <blockquote className="space-y-2 text-center lg:text-left">
+          <p className="text-lg">“This library has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.”</p>
+          <footer className="text-sm">Sofia Davis</footer>
+        </blockquote>
+      </div>
+      <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-8 lg:p-16 h-screen">
+        <div className="w-full max-w-md flex flex-col space-y-6">
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
+            <p className="text-sm text-gray-400">Choose a method to create your account</p>
+          </div>
+          <div className="space-y-4">
+            <button
+              onClick={() => handleOAuthLogin('google')}
+              className="w-full bg-red-600 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-700 transition duration-150"
+            >
+              Login with Google
+            </button>
+            <button
+              onClick={() => handleOAuthLogin('discord')}
+              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-md hover:bg-indigo-700 transition duration-150"
+            >
+              Login with Discord
+            </button>
+          </div>
+          <p className="text-center text-sm text-gray-400">
+            By clicking continue, you agree to our{' '}
+            <a href="/terms" className="underline hover:text-white">Terms of Service</a> and{' '}
+            <a href="/privacy" className="underline hover:text-white">Privacy Policy</a>.
+          </p>
         </div>
       </div>
     </div>
