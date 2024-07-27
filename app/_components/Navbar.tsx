@@ -41,7 +41,9 @@ const Navbar = () => {
 
     return (
         <header className="w-full p-4 text-black flex items-center justify-between bg-white shadow">
+            <Link href="/">
             <h1 className="text-4xl font-bold">Audio Call App</h1>
+            </Link>
 
             <div className='flex gap-2'>
                 <Link href="/profile">
